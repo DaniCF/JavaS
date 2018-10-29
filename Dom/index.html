@@ -19,11 +19,27 @@
         <h1 id="titulo">Yellow there</h1>
         <p id="rednobi">General Rednobi</p>
         <p id="blue">You are a blue one</p>
-
+        <canvas id="asteroids" width="400" height="400"></canvas>
         <button id='boton'>OH I DONT THINK SO</button>
         <button id='boton2'>oh i dont think so</button>
         <button id='boton3'>Oh I Dont Think So</button>
-        
+        <script>
+            var canvas = document.getElementById("asteroids")
+            var context = canvas.getContext("2d");
+            context.strokeStyle = 'dimgrey';
+            context.fillStyle = 'lightgrey';
+            context.lineWidth = 5;
+            context.rect(75,75,canvas.width - 150,canvas.height - 100);
+            context.stroke();
+            context.fill();
+            context.font = '34px Arial';
+            context.strokeStyle = '#FF2222';
+            context.fillStyle = '#FFAAAA';
+            context.lineWidth = 0.75;
+            context.textAlign = 'center';
+            let msg = "Dibujo 2D"
+            context.fillText(msg, canvas.width / 2,100)
+        </script>
     </body>
     <script src="dom.js"></script>
 </html>

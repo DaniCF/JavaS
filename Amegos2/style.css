@@ -1,0 +1,11 @@
+ul.notas{
+    list-style-type: none;
+}
+
+div{
+    border: 5px black solid;
+    background-color: bisque;
+    width: 50%;
+    height: 50px;
+
+}
