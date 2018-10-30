@@ -3,9 +3,9 @@ ul.notas{
 }
 
 div{
+    text-align: center;
     border: 5px black solid;
-    background-color: bisque;
+    background-color: rgb(252, 243, 232);
     width: 50%;
     height: 50px;
-
 }
