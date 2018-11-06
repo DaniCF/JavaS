@@ -1,11 +1,10 @@
-var canvas = document.getElementById('asteroids');
-var context = canvas.getContext('2d')
+var context = document.getElementById('asteroids').getContext('2d');
 
 //Forma
 var segments = 24;
 var shape = [];
 
-for (let i = 0; i < segments; i++) {
+for (var i = 0; i < segments; i++) {
     shape.push(Math.random() - 0.5);
 }
 
@@ -19,8 +18,8 @@ var angle = 0;
 
 //Movimiento
 
-var x_speed = context.canvas.width * (Math.random()-0.5);
-var y_speed = context.canvas.heigth * (Math.random()-0.5);
+var x_speed = context.canvas.width * (Math.random() - 0.5);
+var y_speed = context.canvas.heigth * (Math.random() - 0.5);
 var rotation_speed = 2 * Math.PI * (Math.random() - 0.5);
 
 function draw(ctx,guide){
@@ -51,7 +50,7 @@ function update(elapsed){
     
     x += elapsed * x_speed;
     y += elapsed * y_speed;
-    angle = (angle + elapse * rotation_speed) % (2 * Math.PI);
+    angle = (angle + elapsed * rotation_speed) % (2 * Math.PI);
 }
 
 var previous, elapsed;
@@ -60,7 +59,7 @@ function frame(timestamp){
     context.clearRect(0,0,context.canvas.width,context.canvas.width);
     if (!previous) previous = timestamp;
     elapsed = timestamp - previous;
-    update(elapsed/1000);
+    update(elapsed / 1000);
     draw(context,true);
     previous = timestamp;
     window.requestAnimationFrame(frame);
