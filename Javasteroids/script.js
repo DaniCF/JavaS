@@ -1,9 +1,9 @@
 var context = document.getElementById('asteroids').getContext('2d');
 
 var asteroids = [
-    new Asteroid(24,50,0.2),
-    new Asteroid(24,50,0.5),
-    new Asteroid(5,50,0.2),
+    new Asteroid(24,20,0.2),
+    new Asteroid(24,20,0.5),
+    new Asteroid(5,20,0.2),
 ];
 
 function draw(ctx,guide){
