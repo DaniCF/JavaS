@@ -1,32 +1,24 @@
 var context = document.getElementById('asteroids').getContext('2d');
 
-var asteroids = [
-    new Asteroid(24,20,0.2),
-    new Asteroid(24,20,0.5),
-    new Asteroid(5,20,0.2),
-];
+var asteroid = new Asteroid(10000, 30, 30);
 
-function draw(ctx,guide){
-    if(guide){
-        draw_grid(ctx);
-    }
-
-    asteroids.forEach(function(asteroid){
-        asteroid.draw(context, guide);
-    });
+function draw(){
+   
+    context.clearRect(0,0, context.canvas.width, context.canvas.height);
+    draw_grid(context);
+    asteroid.draw(context);
 }
 
 function update(elapsed){
-    asteroids.forEach(function(asteroid){
-        asteroid.update(elapsed);
-    });
+    
+    asteroid.update(elapsed, context);
     
 }
 
 var previous, elapsed;
 
 function frame(timestamp){
-    context.clearRect(0,0,context.canvas.width,context.canvas.width);
+    context.clearRect(0,0,context.canvas.width,context.canvas.height);
     if (!previous) previous = timestamp;
     elapsed = timestamp - previous;
     update(elapsed / 1000);
