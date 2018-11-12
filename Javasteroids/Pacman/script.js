@@ -1,5 +1,8 @@
 var context = document.getElementById('pacman').getContext('2d');
 
+context.canvas.addEventListener("keydown", keydown_handler);
+context.canvas.focus();
+
 pacman = new PacMan(600,300,20,120);
 ghosts = [
     new Ghost(Math.random() * 1280, Math.random() * 720, 20, 70,'red'),

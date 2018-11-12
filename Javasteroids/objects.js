@@ -30,8 +30,13 @@ Asteroid.prototype.draw = function(ctx,guide){
     ctx.restore();
 }
 
-function Ship(x,y){
+function Ship(x,y, power){
     this.super(x,y,10,20,1.5 * Math.PI);
+    this.thruster_power = power;
+    this.steering_power = power / 20;
+    this.right_thruster = false;
+    this.left_thruster = false;
+    this.thruster_on = false;
 }
 extend(Ship,Mass);
 
@@ -39,11 +44,16 @@ Ship.prototype.draw = function(c,guide){
     c.save();
     c.translate(this.x,this.y);
     c.rotate(this.angle);
-    c.strokeStyle = "white";
-    c.lineWidth = 2;
-    c.fillStyle = "black";
-    draw_ship(c,this.radius, {guide:guide});
+    draw_ship(c,this.radius, {guide:guide, thruster: this.thruster_on});
     c.restore();
+}
+
+Ship.prototype.update = function(elapsed) {
+    this.push(this.angle,this.thruster_on * this.thruster_power, elapsed);
+    this.twist((this.right_thruster - this.left_thruster) * this.steering_power, elapsed);
+    Mass.prototype.update.apply(this, arguments);
+    
+
 }
 
 function Mass(x, y, mass, radius, angle, x_speed, y_speed, rotation_speed){
@@ -103,4 +113,28 @@ Mass.prototype.draw = function(c){
     c.strokeStyle = "#FFFFFF";
     c.stroke();
     c.restore();
+}
+
+function key_handler(e, value){
+    var nothing_handled = false;
+    switch(e.key || e.keyCode){
+        case "ArrowUp":
+        case 38:
+            ship.thruster_on = value;
+            break;
+        case "ArrowLeft":
+        case 37:
+            ship.left_thruster = value;
+            break;
+        case "ArrowRight":
+        case 39:
+            ship.right_thruster = value;
+            break;
+        case "g":
+        case 71:
+            if(value) guide = !guide;
+        default:
+            nothing_handled = true;
+    }
+    if(!nothing_handled) e.preventDefault();
 }

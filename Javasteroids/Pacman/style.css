@@ -1,8 +1,14 @@
 body{
     text-align: center;
     font-family: sans-serif;
+    background-color: rgb(18, 1, 37);
 }
 
 canvas{
     background-color: black;
+    border: 10px solid grey;
+}
+
+canvas:focus{
+    border: 10px solid white;
 }

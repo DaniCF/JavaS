@@ -87,15 +87,7 @@ PacMan.prototype.turn_right = function(){
 }
 
 PacMan.prototype.update = function(elapsed, width, height){
-    if (Math.random() <= 0.01) {
-        if (Math.random() < 0.5) {
-            this.turn_left();
-        }
-        else{
-            this.turn_right();
-        }
-    }
-
+    
     if(this.x - this.radius + elapsed * this.x_speed > width) {
         this.x = -this.radius;
     }
@@ -113,6 +105,30 @@ PacMan.prototype.update = function(elapsed, width, height){
     this.y += this.y_speed * elapsed;
     this.time += elapsed;
     this.mouth = Math.abs(Math.sin(2 * Math.PI * this.time));
+}
+
+PacMan.prototype.move_right = function(){
+    this.x_speed = this.speed;
+    this.y_speed = 0;
+    this.angle = 0;
+}
+
+PacMan.prototype.move_down = function(){
+    this.x_speed = 0;
+    this.y_speed = this.speed;
+    this.angle = 0.5 * Math.PI;
+}
+
+PacMan.prototype.move_left = function(){
+    this.x_speed = -this.speed;
+    this.y_speed = 0;
+    this.angle = Math.PI;
+}
+
+PacMan.prototype.move_up = function(){
+    this.x_speed = 0;
+    this.y_speed = -this.speed;
+    this.angle = 1.5 * Math.PI;
 }
 
 function Ghost(x,y,radius,speed,colour){
@@ -136,4 +152,33 @@ Ghost.prototype.update = function(target, elapsed){
     var y_speed = Math.sin(angle) * this.speed;
     this.x += x_speed * elapsed;
     this.y += y_speed * elapsed;
+}
+
+function keydown_handler(e) {
+    let key = e.key || e.keyCode
+    let nothing_handled = false;
+    switch(key) {
+        case "ArrowLeft":
+        case 37:
+            pacman.move_left();
+            break;
+
+        case "ArrowUp":
+        case 38:
+            pacman.move_up();
+            break;
+
+        case "ArrowRight":
+        case 39:
+            pacman.move_right();
+            break;
+        
+        case "ArrowDown":
+        case 40:
+            pacman.move_down();
+            break;
+        default:
+            nothing_handled = true;
+    }
+    if(!nothing_handled) e.preventDefault();
 }
