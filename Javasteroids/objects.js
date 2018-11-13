@@ -30,13 +30,14 @@ Asteroid.prototype.draw = function(ctx,guide){
     ctx.restore();
 }
 
-function Ship(x,y, power){
+function Ship(x,y, power, weapon_power){
     this.super(x,y,10,20,1.5 * Math.PI);
     this.thruster_power = power;
     this.steering_power = power / 20;
     this.right_thruster = false;
     this.left_thruster = false;
     this.thruster_on = false;
+    this.weapon_power = weapon_power || 200;
 }
 extend(Ship,Mass);
 
@@ -52,8 +53,41 @@ Ship.prototype.update = function(elapsed) {
     this.push(this.angle,this.thruster_on * this.thruster_power, elapsed);
     this.twist((this.right_thruster - this.left_thruster) * this.steering_power, elapsed);
     Mass.prototype.update.apply(this, arguments);
-    
+}
 
+Ship.prototype.projectile = function(elapsed){
+    var p = new Projectile(0.025, 1, 
+        this.x + Math.cos(this.angle) * this.radius,
+        this.y + Math.sin(this.angle) * this.radius,
+        this.x_speed,
+        this.y_speed,
+        this.rotation_speed
+    );
+    p.push(this.angle, this.weapon_power, elapsed);
+    this.push(this.angle + Math.PI, this.weapon_power, elapsed);
+    return p;
+}
+
+function Projectile(mass, lifetime, x, y, x_speed, y_speed, rotation_speed){
+    var density = 0.001;
+    var radius = Math.sqrt((mass / density) / Math.PI);
+    this.super(mass, radius, x, y, 0, x_speed, y_speed, rotation_speed);
+    this.lifetime = lifetime;
+    this.life = 1.0;
+}
+extend(Projectile, Mass);
+
+Projectile.prototype.update = function(elapsed, c){
+    this.life -= (elapsed / this.lifetime);
+    Mass.prototype.update.apply(this, arguments);
+}
+
+Projectile.prototype.draw = function(c, guide) {
+    c.save();
+    c.translate(this.x,this.y);
+    c.rotate(this.angle);
+    draw_projectile(c, this.radius, this.life, guide);
+    c.restore();
 }
 
 function Mass(x, y, mass, radius, angle, x_speed, y_speed, rotation_speed){
@@ -95,6 +129,14 @@ Mass.prototype.twist = function(force, elapsed){
     this.rotation_speed += elapsed * force / this.mass;
 }
 
+Mass.prototype.turn_left =  function(){
+    this.angle += -0.2;    
+}
+
+Mass.prototype.turn_right =  function(){
+    this.angle += 0.2;   
+}
+
 Mass.prototype.speed = function(){
     return Math.sqrt(Math.pow(this.x_speed, 2) + Math.pow(this.y_speed, 2));
 }
@@ -124,11 +166,15 @@ function key_handler(e, value){
             break;
         case "ArrowLeft":
         case 37:
-            ship.left_thruster = value;
+            ship.turn_left();
             break;
         case "ArrowRight":
         case 39:
-            ship.right_thruster = value;
+            ship.turn_right();
+            break;
+        case "":
+        case 32:
+            ship.trigger = value;
             break;
         case "g":
         case 71:

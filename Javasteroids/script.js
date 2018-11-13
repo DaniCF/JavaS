@@ -16,11 +16,15 @@ for (let i=0; i<4; i++) {
     asteroids.push(asteroid);
 }
 var ship = new Ship(context.canvas.width/2, context.canvas.height/2, 1000);
+var projectiles = [];
 
 function draw(){  
     context.clearRect(0,0, context.canvas.width, context.canvas.height);
     asteroids.forEach(function(asteroid){
         asteroid.draw(context);
+    })
+    projectiles.forEach(function(p){
+        p.draw(context);
     })
     ship.draw(context);
 }
@@ -30,6 +34,15 @@ function update(elapsed){
         asteroid.update(elapsed, context);
     })
     ship.update(elapsed, context);
+    projectiles.forEach(function(projectile, i, projectiles){
+        projectile.update(elapsed, context);
+        if(projectile.life <= 0) {
+            projectiles.splice(i,1);
+        }
+    });
+    if(ship.trigger){
+        projectiles.push(ship.projectile(elapsed));
+    }
 }
 
 var previous, elapsed;

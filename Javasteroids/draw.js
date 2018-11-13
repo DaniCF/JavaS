@@ -133,3 +133,13 @@ function draw_asteroids(ctx,radius,shape,options){
     }
     ctx.restore();
 }
+
+function draw_projectile(ctx, radius, lifetime){
+    ctx.save();
+    ctx.fillStyle = "rgb(100%, 100%," + (100 * lifetime) + "%)";
+    ctx.beginPath();
+    ctx.arc(x,y,radius,0,2);
+    ctx.stroke();
+    ctx.fill();
+    ctx.restore();
+}
