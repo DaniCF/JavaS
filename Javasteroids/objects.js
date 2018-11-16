@@ -5,8 +5,7 @@ function extend(ChildClass, ParentClass){
     ChildClass.prototype.constructor = ChildClass;
 }
 
-function Asteroid(mass, x, y, x_speed, y_speed, rotation_speed){
-    
+function Asteroid(mass, x, y, x_speed, y_speed, rotation_speed){  
     var density = 1; 
     var radius = Math.sqrt((mass / density) / Math.PI);   
     this.super(mass, radius, x, y, 0, x_speed, y_speed,  rotation_speed);  
@@ -30,8 +29,8 @@ Asteroid.prototype.draw = function(ctx,guide){
     ctx.restore();
 }
 
-function Ship(x,y, power, weapon_power){
-    this.super(x,y,10,20,1.5 * Math.PI);
+function Ship(mass, radius, x,y, power, weapon_power){
+    this.super(mass, radius, x,y, 1.5 * Math.PI);
     this.thruster_power = power;
     this.steering_power = power / 20;
     this.right_thruster = false;

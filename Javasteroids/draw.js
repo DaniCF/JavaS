@@ -138,7 +138,8 @@ function draw_projectile(ctx, radius, lifetime){
     ctx.save();
     ctx.fillStyle = "rgb(100%, 100%," + (100 * lifetime) + "%)";
     ctx.beginPath();
-    ctx.arc(x,y,radius,0,2);
+    ctx.arc(0,0,radius,0,2);
+    ctx.closePath();
     ctx.stroke();
     ctx.fill();
     ctx.restore();

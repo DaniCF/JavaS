@@ -15,7 +15,7 @@ for (let i=0; i<4; i++) {
     asteroid.twist((Math.random()-0.5) * 10, 60);
     asteroids.push(asteroid);
 }
-var ship = new Ship(context.canvas.width/2, context.canvas.height/2, 1000);
+var ship = new Ship(context.canvas.width/2, context.canvas.height/2,10, 15, 1000, 200);
 var projectiles = [];
 
 function draw(){  
